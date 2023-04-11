@@ -15,11 +15,13 @@ public class Review {
     private String name;
     private int rating;
 
-    private long movieId;
-
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private UserEntity user;
+
+    @ManyToOne
+    @JoinColumn(name="movie_id", nullable=false)
+    private Movie movie;
 
     @OneToMany(mappedBy = "review")
     private List<Rating> ratings;
@@ -48,14 +50,6 @@ public class Review {
         this.rating = rating;
     }
 
-    public long getMovieId() {
-        return movieId;
-    }
-
-    public void setMovieId(long movieId) {
-        this.movieId = movieId;
-    }
-
     public UserEntity getUser() {
         return user;
     }
@@ -70,5 +64,13 @@ public class Review {
 
     public void setRatings(List<Rating> ratings) {
         this.ratings = ratings;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 }

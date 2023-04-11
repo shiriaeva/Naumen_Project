@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -26,6 +27,11 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;
 
+    @OneToMany(mappedBy = "user")
+    private List<LikedMovie> likedMovies;
+
+    @OneToMany(mappedBy = "user")
+    private List<ExpectedMovie> expectedMovies;
 
     @Enumerated(EnumType.STRING)
     public UserRole userRole;
@@ -108,5 +114,21 @@ public class UserEntity {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public List<LikedMovie> getLikedMovies() {
+        return likedMovies;
+    }
+
+    public void setLikedMovies(List<LikedMovie> likedMovies) {
+        this.likedMovies = likedMovies;
+    }
+
+    public List<ExpectedMovie> getExpectedMovies() {
+        return expectedMovies;
+    }
+
+    public void setExpectedMovies(List<ExpectedMovie> expectedMovies) {
+        this.expectedMovies = expectedMovies;
     }
 }
