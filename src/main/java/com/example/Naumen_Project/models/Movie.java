@@ -15,6 +15,8 @@ public class Movie {
 
     private long kpId;
     private String name;
+
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
     private String posterUrl;
     private int year;
