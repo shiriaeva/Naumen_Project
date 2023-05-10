@@ -15,7 +15,7 @@ public class KpMovieDTO {
     private String description;
     private String shortDescription;
     private String poster;
-    private String rating;
+    private double rating;
     private List<String> genres;
 
     public Long getKpId() {
@@ -82,11 +82,11 @@ public class KpMovieDTO {
         this.poster = poster;
     }
 
-    public String getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 

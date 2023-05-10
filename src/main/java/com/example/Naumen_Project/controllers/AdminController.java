@@ -27,22 +27,27 @@ public class AdminController {
         adminService.loadTypes();
     }
 
-    @GetMapping("/load/Movie")
+    @GetMapping("/movie/load")
     public List<KpMovieDTO> loadMovieByName(@RequestParam String name) {
         return adminService.loadMovieByName(name);
     }
 
-    @PostMapping("movie/create")
+    @PostMapping("/movie/create")
     public void createMovie(@RequestBody KpMovieDTO filmDTO) {
         adminService.createMovie(filmDTO);
     }
 
-    @PutMapping("movie/edit")
+    @GetMapping("/movie/list/{offset}/{limit}")
+    public List<MovieDTO> getMovieList(@PathVariable int offset, @PathVariable int limit) {
+        return adminService.getMovieList(offset,limit);
+    }
+
+    @PutMapping("/movie/edit")
     public MovieDTO editFilm(@RequestBody MovieDTO movie) {
         return adminService.editMovie(movie);
     }
 
-    @DeleteMapping("movie/delete/{id}")
+    @DeleteMapping("/movie/delete/{id}")
     public void deleteFilm(@PathVariable long id) {
         adminService.deleteMovie(id);
     }

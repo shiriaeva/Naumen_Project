@@ -14,6 +14,7 @@ public class Movie {
     private Long id;
 
     private long kpId;
+    private double kpRating;
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")
@@ -26,6 +27,9 @@ public class Movie {
 
     @OneToMany(mappedBy = "movie")
     private List<LikedMovie> expectedMovies;
+
+    @OneToMany(mappedBy = "movie")
+    private List<MovieRating> movieRatings;
 
     @OneToMany(mappedBy = "movie")
     private List<Review> reviews;
@@ -54,6 +58,14 @@ public class Movie {
 
     public long getKpId() {
         return kpId;
+    }
+
+    public double getKpRating() {
+        return kpRating;
+    }
+
+    public void setKpRating(double kpRating) {
+        this.kpRating = kpRating;
     }
 
     public void setKpId(long kpId) {
@@ -130,5 +142,13 @@ public class Movie {
 
     public void setMovieTypes(Set<Type> movieTypes) {
         this.movieTypes = movieTypes;
+    }
+
+    public List<MovieRating> getMovieRatings() {
+        return movieRatings;
+    }
+
+    public void setMovieRatings(List<MovieRating> movieRatings) {
+        this.movieRatings = movieRatings;
     }
 }

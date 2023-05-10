@@ -33,6 +33,9 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     private List<ExpectedMovie> expectedMovies;
 
+    @OneToMany(mappedBy = "user")
+    private List<MovieRating> movieRatings;
+
     @Enumerated(EnumType.STRING)
     public UserRole userRole;
 
@@ -130,5 +133,13 @@ public class UserEntity {
 
     public void setExpectedMovies(List<ExpectedMovie> expectedMovies) {
         this.expectedMovies = expectedMovies;
+    }
+
+    public List<MovieRating> getMovieRatings() {
+        return movieRatings;
+    }
+
+    public void setMovieRatings(List<MovieRating> movieRatings) {
+        this.movieRatings = movieRatings;
     }
 }
