@@ -1,14 +1,11 @@
 package com.example.Naumen_Project.services;
 
 import com.example.Naumen_Project.DTO.*;
-import com.example.Naumen_Project.models.Genre;
 import com.example.Naumen_Project.models.Movie;
 import com.example.Naumen_Project.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -122,18 +119,6 @@ public class AdminService {
 
     public List<MovieDTO> getMovieList(int offset, int limit) {
         var page = movieRepository.findAll(PageRequest.of(offset, limit));
-        return page.stream().map(movie -> {
-            var result = new MovieDTO();
-            result.setDescription(movie.getDescription());
-            result.setRating(movie.getKpRating());
-            result.setId(movie.getId());
-            result.setKpId(movie.getKpId());
-            result.setGenres(movie.getMovieGenres().stream().map(Genre::getName).collect(Collectors.toList()));
-            result.setType(movie.getMovieTypes().stream().findFirst().get().getName());
-            result.setName(movie.getName());
-            result.setPoster(movie.getPosterUrl());
-            result.setYear(movie.getYear());
-            return result;
-        }).collect(Collectors.toList());
+        return page.stream().map(MovieDTO::fromMovie).collect(Collectors.toList());
     }
 }

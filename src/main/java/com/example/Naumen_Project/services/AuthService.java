@@ -5,14 +5,18 @@ import com.example.Naumen_Project.DTO.RegistrationRequest;
 import com.example.Naumen_Project.models.UserEntity;
 import com.example.Naumen_Project.models.UserRole;
 import com.example.Naumen_Project.security.AppUserDetailService;
+import com.example.Naumen_Project.security.AppUserDetails;
 import com.example.Naumen_Project.security.jwt.JwtService;
 import com.example.Naumen_Project.repositories.UserRepository;
 import jakarta.security.auth.message.AuthException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class AuthService {
@@ -42,6 +46,7 @@ public class AuthService {
             user.setUserRole(UserRole.AUTHORIZED_ROLE);
             user.setSurname(registrationDTO.surname());
             user.setSecondName(registrationDTO.secondName());
+            user.setRegistrationDate(new Date());
             userRepository.save(user);
             return user;
         } else
@@ -50,13 +55,17 @@ public class AuthService {
 
     public String login(LoginRequest loginDTO) throws AuthException {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.username(),
+            var authentication =authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.username(),
                     loginDTO.password()));
-
+            SecurityContextHolder.getContext().setAuthentication(authentication);
             var userDetails = userDetailService.loadUserByUsername(loginDTO.username());
             return jwtUtil.generateToken(userDetails);
         } catch (Exception e) {
             throw new AuthException(e.getMessage());
         }
+    }
+
+    public AppUserDetails getCurrentUser() {
+        return (AppUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

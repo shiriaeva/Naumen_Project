@@ -1,8 +1,10 @@
 package com.example.Naumen_Project.DTO;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.example.Naumen_Project.models.Genre;
+import com.example.Naumen_Project.models.Movie;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MovieDTO {
     private Long id;
@@ -15,6 +17,22 @@ public class MovieDTO {
     private String poster;
     private double rating;
     private List<String> genres;
+
+
+
+    public static MovieDTO fromMovie(Movie movie){
+        var result = new MovieDTO();
+        result.setDescription(movie.getDescription());
+        result.setRating(movie.getKpRating());
+        result.setId(movie.getId());
+        result.setKpId(movie.getKpId());
+        result.setGenres(movie.getMovieGenres().stream().map(Genre::getName).collect(Collectors.toList()));
+        result.setType(movie.getMovieTypes().stream().findFirst().get().getName());
+        result.setName(movie.getName());
+        result.setPoster(movie.getPosterUrl());
+        result.setYear(movie.getYear());
+        return result;
+    }
 
     public Long getId() {
         return id;
