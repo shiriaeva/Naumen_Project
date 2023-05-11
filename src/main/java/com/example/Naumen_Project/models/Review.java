@@ -2,8 +2,6 @@ package com.example.Naumen_Project.models;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 
 import java.util.List;
 
@@ -17,8 +15,6 @@ public class Review {
 
     private String reviewText;
 
-    @Min(0)
-    @Max(10)
     private int rating;
 
     @ManyToOne

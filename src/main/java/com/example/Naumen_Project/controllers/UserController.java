@@ -7,6 +7,7 @@ import com.example.Naumen_Project.DTO.user.UserCommonDTO;
 import com.example.Naumen_Project.services.AuthService;
 import com.example.Naumen_Project.services.MovieService;
 import com.example.Naumen_Project.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,7 +67,7 @@ public class UserController {
 
     @PostMapping("/movie/review")
     @ResponseStatus(value = HttpStatus.ACCEPTED, reason = "Review created")
-    public void createMovieReview(@RequestBody ReviewDTO reviewDTO) {
+    public void createMovieReview(@Valid @RequestBody ReviewDTO reviewDTO) {
         var user = authService.getCurrentUser();
         movieService.createReview(user.getUser(), reviewDTO);
     }
