@@ -2,6 +2,9 @@ package com.example.Naumen_Project.models;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+
 import java.util.List;
 
 @Entity
@@ -12,7 +15,10 @@ public class Review {
     @Column(name = "review_id")
     private Long id;
 
-    private String name;
+    private String reviewText;
+
+    @Min(0)
+    @Max(10)
     private int rating;
 
     @ManyToOne
@@ -26,6 +32,16 @@ public class Review {
     @OneToMany(mappedBy = "review")
     private List<Rating> ratings;
 
+    public Review(String reviewText, int rating, UserEntity user, Movie movie) {
+        this.reviewText = reviewText;
+        this.rating = rating;
+        this.user = user;
+        this.movie = movie;
+    }
+
+    public Review() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -34,12 +50,12 @@ public class Review {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getReviewText() {
+        return reviewText;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setReviewText(String name) {
+        this.reviewText = name;
     }
 
     public int getRating() {

@@ -26,7 +26,7 @@ public class Movie {
     private List<LikedMovie> likedMovies;
 
     @OneToMany(mappedBy = "movie")
-    private List<LikedMovie> expectedMovies;
+    private List<ExpectedMovie> expectedMovies;
 
     @OneToMany(mappedBy = "movie")
     private List<MovieRating> movieRatings;
@@ -112,11 +112,11 @@ public class Movie {
         this.likedMovies = likedMovies;
     }
 
-    public List<LikedMovie> getExpectedMovies() {
+    public List<ExpectedMovie> getExpectedMovies() {
         return expectedMovies;
     }
 
-    public void setExpectedMovies(List<LikedMovie> expectedMovies) {
+    public void setExpectedMovies(List<ExpectedMovie> expectedMovies) {
         this.expectedMovies = expectedMovies;
     }
 

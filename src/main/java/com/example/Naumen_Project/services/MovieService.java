@@ -1,13 +1,13 @@
 package com.example.Naumen_Project.services;
 
+import com.example.Naumen_Project.DTO.DetailMovieDTO;
 import com.example.Naumen_Project.DTO.MovieDTO;
+import com.example.Naumen_Project.DTO.ReviewDTO;
 import com.example.Naumen_Project.models.ExpectedMovie;
 import com.example.Naumen_Project.models.LikedMovie;
+import com.example.Naumen_Project.models.Review;
 import com.example.Naumen_Project.models.UserEntity;
-import com.example.Naumen_Project.repositories.ExpectedMovieRepository;
-import com.example.Naumen_Project.repositories.LikedMovieRepository;
-import com.example.Naumen_Project.repositories.MovieRepository;
-import com.example.Naumen_Project.repositories.UserRepository;
+import com.example.Naumen_Project.repositories.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +21,14 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final LikedMovieRepository likedRepository;
     private final ExpectedMovieRepository expectedRepository;
+    private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
 
-    public MovieService(MovieRepository movieRepository, LikedMovieRepository likedRepository, ExpectedMovieRepository expectedRepository, UserRepository userRepository) {
+    public MovieService(MovieRepository movieRepository, LikedMovieRepository likedRepository, ExpectedMovieRepository expectedRepository, ReviewRepository reviewRepository, UserRepository userRepository) {
         this.movieRepository = movieRepository;
         this.likedRepository = likedRepository;
         this.expectedRepository = expectedRepository;
+        this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
     }
 
@@ -43,22 +45,15 @@ public class MovieService {
                 .orElseThrow(() ->
                         new IllegalArgumentException("Данного фильма не существует id - " + filmDTO.getId()));
 
-        if (user.getLikedMovies() == null) {
-            user.setLikedMovies(new ArrayList<LikedMovie>());
-            userRepository.save(user);
-        }
-
         var likedOrNot = likedRepository.findByUserIdAndMovie(user.getId(), movie);
         if (likedOrNot == null){
             var newLiked = new LikedMovie(movie, user);
             likedRepository.save(newLiked);
-            user.getLikedMovies().add(newLiked);
             userRepository.save(user);
         }
         else {
-            user.getLikedMovies().remove(likedOrNot);
-            userRepository.save(user);
             likedRepository.delete(likedOrNot);
+            userRepository.save(user);
         }
     }
 
@@ -68,22 +63,43 @@ public class MovieService {
                 .orElseThrow(() ->
                         new IllegalArgumentException("Данного фильма не существует id - " + filmDTO.getId()));
 
-        if (user.getExpectedMovies() == null) {
-            user.setExpectedMovies(new ArrayList<ExpectedMovie>());
-            userRepository.save(user);
-        }
-
         var expectedOrNot = expectedRepository.findByUserIdAndMovie(user.getId(), movie);
         if (expectedOrNot == null){
             var newExpected = new ExpectedMovie(movie, user);
             expectedRepository.save(newExpected);
-            user.getExpectedMovies().add(newExpected);
             userRepository.save(user);
         }
         else {
-            user.getExpectedMovies().remove(expectedOrNot);
-            userRepository.save(user);
             expectedRepository.delete(expectedOrNot);
+            userRepository.save(user);
         }
+    }
+
+    public void createReview(UserEntity user, ReviewDTO reviewDTO){
+        var movie = movieRepository.findById(
+                        reviewDTO.getMovieId())
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Данного фильма не существует id - " + reviewDTO.getMovieId()));
+
+        var existedReview = reviewRepository.findByUserIdAndMovie(user.getId(), movie);
+        if (existedReview == null){
+            var newReview = new Review(reviewDTO.getReviewText(),
+                    reviewDTO.getRating(), user, movie);
+            reviewRepository.save(newReview);
+            userRepository.save(user);
+            movieRepository.save(movie);
+        }
+        else {
+            throw new IllegalArgumentException("Вы уже оставляли отзыв на этот фильм");
+        }
+    }
+
+    public DetailMovieDTO getMovie(int movieId) {
+        var movie = movieRepository.findById((long) movieId)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Данного фильма не существует id - " + movieId));
+        var reviews = new ArrayList<ReviewDTO>();
+        movie.getReviews().forEach(review -> reviews.add(ReviewDTO.fromReview(review)));
+        return DetailMovieDTO.fromMovie(movie, reviews);
     }
 }

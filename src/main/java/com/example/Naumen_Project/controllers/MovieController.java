@@ -1,5 +1,6 @@
 package com.example.Naumen_Project.controllers;
 
+import com.example.Naumen_Project.DTO.DetailMovieDTO;
 import com.example.Naumen_Project.DTO.MovieDTO;
 import com.example.Naumen_Project.services.AuthService;
 import com.example.Naumen_Project.services.MovieService;
@@ -22,6 +23,11 @@ public class MovieController {
     @GetMapping("/{offset}/{limit}")
     public List<MovieDTO> getMovies(@PathVariable int offset, @PathVariable int limit) {
         return movieService.getMovieList(offset, limit);
+    }
+
+    @GetMapping("/{movieId}")
+    public DetailMovieDTO getMovie(@PathVariable int movieId) {
+        return movieService.getMovie(movieId);
     }
 
 }

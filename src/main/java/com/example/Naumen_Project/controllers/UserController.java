@@ -2,6 +2,7 @@ package com.example.Naumen_Project.controllers;
 
 import com.example.Naumen_Project.DTO.KpMovieDTO;
 import com.example.Naumen_Project.DTO.MovieDTO;
+import com.example.Naumen_Project.DTO.ReviewDTO;
 import com.example.Naumen_Project.DTO.user.UserCommonDTO;
 import com.example.Naumen_Project.services.AuthService;
 import com.example.Naumen_Project.services.MovieService;
@@ -61,6 +62,13 @@ public class UserController {
     public void addMovieToExpected(@RequestBody MovieDTO filmDTO) {
         var user = authService.getCurrentUser();
         movieService.addToExpected(user.getUser(), filmDTO);
+    }
+
+    @PostMapping("/movie/review")
+    @ResponseStatus(value = HttpStatus.ACCEPTED, reason = "Review created")
+    public void createMovieReview(@RequestBody ReviewDTO reviewDTO) {
+        var user = authService.getCurrentUser();
+        movieService.createReview(user.getUser(), reviewDTO);
     }
 
 }
