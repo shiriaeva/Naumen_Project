@@ -20,6 +20,15 @@ public class LikedMovie {
     @JoinColumn(name="user_id", nullable=false)
     private UserEntity user;
 
+    public LikedMovie(Movie movie, UserEntity user) {
+        this.movie = movie;
+        this.user = user;
+    }
+
+    public LikedMovie() {
+
+    }
+
     public Long getId() {
         return id;
     }

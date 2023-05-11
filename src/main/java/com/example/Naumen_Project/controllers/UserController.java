@@ -1,9 +1,12 @@
 package com.example.Naumen_Project.controllers;
 
+import com.example.Naumen_Project.DTO.KpMovieDTO;
 import com.example.Naumen_Project.DTO.MovieDTO;
 import com.example.Naumen_Project.DTO.user.UserCommonDTO;
 import com.example.Naumen_Project.services.AuthService;
+import com.example.Naumen_Project.services.MovieService;
 import com.example.Naumen_Project.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,10 +17,12 @@ public class UserController {
 
     private final UserService userService;
     private final AuthService authService;
+    private final MovieService movieService;
 
-    public UserController(UserService userService, AuthService authService) {
+    public UserController(UserService userService, AuthService authService, MovieService movieService) {
         this.userService = userService;
         this.authService = authService;
+        this.movieService = movieService;
     }
 
     @GetMapping("")
@@ -42,6 +47,20 @@ public class UserController {
     public List<MovieDTO> getRatedList(@PathVariable int offset, @PathVariable int limit) {
         var user = authService.getCurrentUser();
         return userService.getRatedMovies(user.getUser(), offset, limit);
+    }
+
+    @PostMapping("/liked/movie/")
+    @ResponseStatus(value = HttpStatus.ACCEPTED, reason = "Movie added to liked")
+    public void addMovieToLiked(@RequestBody MovieDTO filmDTO) {
+        var user = authService.getCurrentUser();
+        movieService.addToLiked(user.getUser(), filmDTO);
+    }
+
+    @PostMapping("/expected/movie/")
+    @ResponseStatus(value = HttpStatus.ACCEPTED, reason = "Movie added to expected")
+    public void addMovieToExpected(@RequestBody MovieDTO filmDTO) {
+        var user = authService.getCurrentUser();
+        movieService.addToExpected(user.getUser(), filmDTO);
     }
 
 }

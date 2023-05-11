@@ -20,6 +20,14 @@ public class ExpectedMovie {
     @JoinColumn(name="user_id", nullable=false)
     private UserEntity user;
 
+    public ExpectedMovie() {
+    }
+
+    public ExpectedMovie(Movie movie, UserEntity user) {
+        this.movie = movie;
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }
