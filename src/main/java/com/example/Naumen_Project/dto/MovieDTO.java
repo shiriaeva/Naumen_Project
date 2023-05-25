@@ -1,22 +1,46 @@
-package com.example.Naumen_Project.DTO;
+package com.example.Naumen_Project.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.example.Naumen_Project.models.Genre;
+import com.example.Naumen_Project.models.Movie;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class KpMovieDTO {
-    @JsonProperty("id")
+public class MovieDTO {
+    private Long id;
     private Long kpId;
     private String name;
     private String type;
-    private String genre;
     private int year;
     private String description;
-    private String shortDescription;
+
     private String poster;
     private double rating;
     private List<String> genres;
+
+
+
+    public static MovieDTO fromMovie(Movie movie){
+        var result = new MovieDTO();
+        result.setDescription(movie.getDescription());
+        result.setRating(movie.getKpRating());
+        result.setId(movie.getId());
+        result.setKpId(movie.getKpId());
+        result.setGenres(movie.getMovieGenres().stream().map(Genre::getName).collect(Collectors.toList()));
+        result.setType(movie.getMovieTypes().stream().findFirst().get().getName());
+        result.setName(movie.getName());
+        result.setPoster(movie.getPosterUrl());
+        result.setYear(movie.getYear());
+        return result;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getKpId() {
         return kpId;
@@ -42,14 +66,6 @@ public class KpMovieDTO {
         this.type = type;
     }
 
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
     public int getYear() {
         return year;
     }
@@ -66,13 +82,6 @@ public class KpMovieDTO {
         this.description = description;
     }
 
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
-    }
 
     public String getPoster() {
         return poster;
@@ -97,5 +106,4 @@ public class KpMovieDTO {
     public void setGenres(List<String> genres) {
         this.genres = genres;
     }
-
 }

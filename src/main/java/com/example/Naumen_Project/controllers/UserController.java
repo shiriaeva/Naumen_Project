@@ -1,19 +1,20 @@
 package com.example.Naumen_Project.controllers;
 
-import com.example.Naumen_Project.DTO.KpMovieDTO;
-import com.example.Naumen_Project.DTO.MovieDTO;
-import com.example.Naumen_Project.DTO.ReviewDTO;
-import com.example.Naumen_Project.DTO.user.UserCommonDTO;
+import com.example.Naumen_Project.dto.MovieDTO;
+import com.example.Naumen_Project.dto.ReviewDTO;
+import com.example.Naumen_Project.dto.user.UserCommonDTO;
 import com.example.Naumen_Project.services.AuthService;
 import com.example.Naumen_Project.services.MovieService;
 import com.example.Naumen_Project.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/user")
 public class UserController {
 
@@ -28,30 +29,40 @@ public class UserController {
     }
 
     @GetMapping("")
-    public UserCommonDTO getUserInfo() {
+    public String getUserInfo(Model model) {
+        var offset = 0;
+        var limit = 10;
         var user = authService.getCurrentUser();
-        return userService.getUserCommonInfo(user.getUser());
+        model.addAttribute("userInfo",userService.getUserCommonInfo(user.getUser()));
+        model.addAttribute("lickedMovies",userService.getUserLikedMovies(user.getUser(), offset, limit));
+        model.addAttribute("expectedMovies",userService.getExpectedMovies(user.getUser(), offset, limit));
+        model.addAttribute("ratedMovies",userService.getRatedMovies(user.getUser(), offset, limit));
+        return "personal_area";
     }
 
     @GetMapping("/liked/movies/{offset}/{limit}")
+    @ResponseBody
     public List<MovieDTO> getLikedMovieList(@PathVariable int offset, @PathVariable int limit) {
         var user = authService.getCurrentUser();
         return userService.getUserLikedMovies(user.getUser(), offset, limit);
     }
 
     @GetMapping("/expected/movies/{offset}/{limit}")
+    @ResponseBody
     public List<MovieDTO> getExpectedMovieList(@PathVariable int offset, @PathVariable int limit) {
         var user = authService.getCurrentUser();
         return userService.getExpectedMovies(user.getUser(), offset, limit);
     }
 
     @GetMapping("/rated/movies/{offset}/{limit}")
+    @ResponseBody
     public List<MovieDTO> getRatedList(@PathVariable int offset, @PathVariable int limit) {
         var user = authService.getCurrentUser();
         return userService.getRatedMovies(user.getUser(), offset, limit);
     }
 
     @PostMapping("/liked/movie/")
+    @ResponseBody
     @ResponseStatus(value = HttpStatus.ACCEPTED, reason = "Movie added to liked")
     public void addMovieToLiked(@RequestBody MovieDTO filmDTO) {
         var user = authService.getCurrentUser();
@@ -59,6 +70,7 @@ public class UserController {
     }
 
     @PostMapping("/expected/movie/")
+    @ResponseBody
     @ResponseStatus(value = HttpStatus.ACCEPTED, reason = "Movie added to expected")
     public void addMovieToExpected(@RequestBody MovieDTO filmDTO) {
         var user = authService.getCurrentUser();
@@ -66,6 +78,7 @@ public class UserController {
     }
 
     @PostMapping("/movie/review")
+    @ResponseBody
     @ResponseStatus(value = HttpStatus.ACCEPTED, reason = "Review created")
     public void createMovieReview(@Valid @RequestBody ReviewDTO reviewDTO) {
         var user = authService.getCurrentUser();

@@ -1,6 +1,6 @@
-package com.example.Naumen_Project.DTO;
+package com.example.Naumen_Project.dto;
 
-public class TypeDTO {
+public class GenreDTO {
     private String name;
     private String slug;
 
@@ -22,7 +22,7 @@ public class TypeDTO {
 
     @Override
     public String toString() {
-        return "TypeDTO{" +
+        return "GenreDTO{" +
                 "name='" + name + '\'' +
                 ", slug='" + slug + '\'' +
                 '}';

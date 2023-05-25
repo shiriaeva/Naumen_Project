@@ -1,4 +1,4 @@
-package com.example.Naumen_Project.DTO.user;
+package com.example.Naumen_Project.dto.user;
 
 
 public class UserCommonDTO {

@@ -1,6 +1,6 @@
 package com.example.Naumen_Project.services;
 
-import com.example.Naumen_Project.DTO.GenreDTO;
+import com.example.Naumen_Project.dto.GenreDTO;
 import com.example.Naumen_Project.models.Genre;
 import com.example.Naumen_Project.repositories.GenreRepository;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,8 @@
 package com.example.Naumen_Project.services;
 
-import com.example.Naumen_Project.DTO.DetailMovieDTO;
-import com.example.Naumen_Project.DTO.MovieDTO;
-import com.example.Naumen_Project.DTO.ReviewDTO;
+import com.example.Naumen_Project.dto.DetailMovieDTO;
+import com.example.Naumen_Project.dto.MovieDTO;
+import com.example.Naumen_Project.dto.ReviewDTO;
 import com.example.Naumen_Project.models.ExpectedMovie;
 import com.example.Naumen_Project.models.LikedMovie;
 import com.example.Naumen_Project.models.Review;

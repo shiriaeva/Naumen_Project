@@ -1,13 +1,16 @@
 package com.example.Naumen_Project.controllers;
 
-import com.example.Naumen_Project.DTO.KpMovieDTO;
-import com.example.Naumen_Project.DTO.MovieDTO;
+import com.example.Naumen_Project.dto.KpMovieDTO;
+import com.example.Naumen_Project.dto.MovieDTO;
 import com.example.Naumen_Project.services.AdminService;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -17,37 +20,56 @@ public class AdminController {
         this.adminService = adminService;
     }
 
+    @GetMapping("/")
+    public String admin(Model model) {
+        model.addAttribute("users", adminService.getUsers(0,20));
+        model.addAttribute("films", adminService.getMovieList(0, 20));
+        return "admin";
+    }
+
+    @GetMapping("/addFilm")
+    public String addFilm(Model model) {
+        return "add-film";
+    }
+
     @GetMapping("/load/genres")
+    @ResponseBody
     public void loadGenresFromKinopoisk() {
         adminService.loadGenres();
     }
 
     @GetMapping("/load/types")
+    @ResponseBody
     public void loadTypesFromKinopoisk() {
         adminService.loadTypes();
     }
 
     @GetMapping("/movie/load")
-    public List<KpMovieDTO> loadMovieByName(@RequestParam String name) {
-        return adminService.loadMovieByName(name);
+    @ResponseBody
+    public List<KpMovieDTO> loadMovieByName(@RequestParam String name,@RequestParam int page,@RequestParam int limit) {
+        return adminService.loadMovieByName(name,page,limit);
     }
 
-    @PostMapping("/movie/create")
+    @PostMapping(value = "/movie/create",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public void createMovie(@RequestBody KpMovieDTO filmDTO) {
         adminService.createMovie(filmDTO);
     }
 
     @GetMapping("/movie/list/{offset}/{limit}")
+    @ResponseBody
     public List<MovieDTO> getMovieList(@PathVariable int offset, @PathVariable int limit) {
-        return adminService.getMovieList(offset,limit);
+        return adminService.getMovieList(offset, limit);
     }
 
     @PutMapping("/movie/edit")
+    @ResponseBody
     public MovieDTO editFilm(@RequestBody MovieDTO movie) {
         return adminService.editMovie(movie);
     }
 
     @DeleteMapping("/movie/delete/{id}")
+    @ResponseBody
     public void deleteFilm(@PathVariable long id) {
         adminService.deleteMovie(id);
     }

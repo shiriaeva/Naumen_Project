@@ -1,7 +1,7 @@
 package com.example.Naumen_Project.services;
 
-import com.example.Naumen_Project.DTO.LoginRequest;
-import com.example.Naumen_Project.DTO.RegistrationRequest;
+import com.example.Naumen_Project.dto.LoginRequest;
+import com.example.Naumen_Project.dto.RegistrationRequest;
 import com.example.Naumen_Project.models.UserEntity;
 import com.example.Naumen_Project.models.UserRole;
 import com.example.Naumen_Project.security.AppUserDetailService;
@@ -37,15 +37,15 @@ public class AuthService {
 
     public UserEntity register(RegistrationRequest registrationDTO) {
 
-        if (userRepository.findByUsername(registrationDTO.username()).isEmpty()) {
+        if (userRepository.findByUsername(registrationDTO.getUsername()).isEmpty()) {
             UserEntity user = new UserEntity();
-            user.setName(registrationDTO.name());
-            user.setEmail(registrationDTO.email());
-            user.setPassword(passwordEncoder.encode(registrationDTO.password()));
-            user.setUsername(registrationDTO.username());
+            user.setName(registrationDTO.getName());
+            user.setEmail(registrationDTO.getEmail());
+            user.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
+            user.setUsername(registrationDTO.getUsername());
             user.setUserRole(UserRole.AUTHORIZED_ROLE);
-            user.setSurname(registrationDTO.surname());
-            user.setSecondName(registrationDTO.secondName());
+            user.setSurname(registrationDTO.getSurname());
+            user.setSecondName(registrationDTO.getSecondName());
             user.setRegistrationDate(new Date());
             userRepository.save(user);
             return user;
@@ -55,10 +55,10 @@ public class AuthService {
 
     public String login(LoginRequest loginDTO) throws AuthException {
         try {
-            var authentication =authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.username(),
-                    loginDTO.password()));
+            var authentication =authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),
+                    loginDTO.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            var userDetails = userDetailService.loadUserByUsername(loginDTO.username());
+            var userDetails = userDetailService.loadUserByUsername(loginDTO.getUsername());
             return jwtUtil.generateToken(userDetails);
         } catch (Exception e) {
             throw new AuthException(e.getMessage());

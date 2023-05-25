@@ -1,8 +1,8 @@
 package com.example.Naumen_Project.services;
 
 
-import com.example.Naumen_Project.DTO.MovieDTO;
-import com.example.Naumen_Project.DTO.user.UserCommonDTO;
+import com.example.Naumen_Project.dto.MovieDTO;
+import com.example.Naumen_Project.dto.user.UserCommonDTO;
 import com.example.Naumen_Project.models.UserEntity;
 import com.example.Naumen_Project.repositories.ExpectedMovieRepository;
 import com.example.Naumen_Project.repositories.LikedMovieRepository;

@@ -1,4 +1,4 @@
-package com.example.Naumen_Project.DTO;
+package com.example.Naumen_Project.dto;
 
 import com.example.Naumen_Project.models.Genre;
 import com.example.Naumen_Project.models.Movie;

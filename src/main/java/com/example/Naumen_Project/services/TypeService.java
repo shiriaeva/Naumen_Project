@@ -1,11 +1,9 @@
 package com.example.Naumen_Project.services;
 
-import com.example.Naumen_Project.DTO.TypeDTO;
+import com.example.Naumen_Project.dto.TypeDTO;
 import com.example.Naumen_Project.models.Type;
 import com.example.Naumen_Project.repositories.TypeRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 @Service
 public class TypeService {

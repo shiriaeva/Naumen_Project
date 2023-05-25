@@ -1,4 +1,4 @@
-package com.example.Naumen_Project.DTO;
+package com.example.Naumen_Project.dto;
 
 import java.util.List;
 

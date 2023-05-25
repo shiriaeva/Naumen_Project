@@ -1,8 +1,10 @@
 package com.example.Naumen_Project.services;
 
-import com.example.Naumen_Project.DTO.*;
+import com.example.Naumen_Project.dto.*;
 import com.example.Naumen_Project.models.Movie;
+import com.example.Naumen_Project.models.UserEntity;
 import com.example.Naumen_Project.repositories.MovieRepository;
+import com.example.Naumen_Project.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.PageRequest;
@@ -12,7 +14,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,11 +29,13 @@ public class AdminService {
     private final GenreService genreService;
     private final TypeService typeService;
     private final MovieRepository movieRepository;
+    private final UserRepository userRepository;
 
-    public AdminService(GenreService genreService, TypeService typeService, MovieRepository movieRepository) {
+    public AdminService(GenreService genreService, TypeService typeService, MovieRepository movieRepository, UserRepository userRepository) {
         this.genreService = genreService;
         this.typeService = typeService;
         this.movieRepository = movieRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -65,13 +70,13 @@ public class AdminService {
     }
 
 
-    public List<KpMovieDTO> loadMovieByName(String name) {
-        var url = "https://api.kinopoisk.dev/v1.2/movie/search?page=1&limit=10&query=" + name;
+    public List<KpMovieDTO> loadMovieByName(String name,int page,int limit) {
+
+        var param = URLDecoder.decode(name, StandardCharsets.UTF_8);
+        var url = "https://api.kinopoisk.dev/v1.2/movie/search?page="+page+"&limit="+limit+"&query=" +param;
         var headers = new HttpHeaders();
         headers.set("accept", "application/json");
         headers.set("X-API-KEY", token);
-        var params = new HashMap<String, String>();
-
         var httpEntity = new HttpEntity<Void>(headers);
         var result = restTemplate.exchange(url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<KpMovieListDTO>() {
         });
@@ -120,5 +125,9 @@ public class AdminService {
     public List<MovieDTO> getMovieList(int offset, int limit) {
         var page = movieRepository.findAll(PageRequest.of(offset, limit));
         return page.stream().map(MovieDTO::fromMovie).collect(Collectors.toList());
+    }
+
+    public List<UserEntity> getUsers(int offset, int limit) {
+        return userRepository.findAll(PageRequest.of(offset, limit)).stream().toList();
     }
 }

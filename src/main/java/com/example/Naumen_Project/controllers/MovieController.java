@@ -1,11 +1,8 @@
 package com.example.Naumen_Project.controllers;
 
-import com.example.Naumen_Project.DTO.DetailMovieDTO;
-import com.example.Naumen_Project.DTO.MovieDTO;
-import com.example.Naumen_Project.services.AuthService;
+import com.example.Naumen_Project.dto.DetailMovieDTO;
+import com.example.Naumen_Project.dto.MovieDTO;
 import com.example.Naumen_Project.services.MovieService;
-import com.example.Naumen_Project.services.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Личный кабинет</title>
+</head>
+<body>
+<br>
+<a href="#">Главная</a>
+<div>
+    <h2>Основная информация</h2>
+    <ul>
+        <li th:text="${'Логин: '+ userInfo.username}">username</li>
+        <li th:text="${'почта: '+userInfo.email}">email</li>
+        <li th:text="${'Фамилия: '+userInfo.surname}">surname</li>
+        <li th:text="${'Имя: '+userInfo.name}">name</li>
+        <li th:if="${userInfo.secondName!=null}" th:text="${'Отчество: '+userInfo.secondName}">secondName</li>
+    </ul>
+</div>
+<div class="liked_films">
+    <h3>список понравившихся</h3>
+    <ul id="films-like" th:each="movie : ${lickedMovies}"  class="gallery">
+        <li><img src="" th:src="${movie.poster}" width="100" height="150" > <p  th:text="${movie.name}"></p></li>
+
+    </ul>
+</div>
+<br>
+<div><h3>список ожидаемых</h3>
+    <ul  th:each="movie : ${expectedMovies}"  class="gallery">
+        <li><img src="" th:src="${movie.poster}" width="100" height="150" > <p  th:text="${movie.name}"></p></li>
+
+    </ul></div>
+<div><h3>список оцененных</h3>
+    <ul  th:each="movie : ${ratedMovies}"  class="gallery">
+        <li><img src="" th:src="${movie.poster}" width="100" height="150" > <p  th:text="${movie.name}"></p></li>
+
+    </ul></div>
+</body>
+<style>
+    body{
+        margin-left:30% ;
+    }
+   .gallery{
+        display: inline-flex;
+        list-style: none;
+        margin-right: 10px;
+        margin-left: 10px;
+        padding: 0;
+        text-align: center;
+    }
+
+</style>
+</html>
