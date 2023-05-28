@@ -49,7 +49,7 @@ public class AuthController {
             response.addCookie(new Cookie("token", token));
             var user = authService.getCurrentUser();
             if(user.getAuthorities().contains(new SimpleGrantedAuthority(UserRole.ADMIN_ROLE.name()))){
-                return "redirect:/admin";
+                return "redirect:/admin/";
             }
             return "redirect:/user";
         } catch (Exception e) {

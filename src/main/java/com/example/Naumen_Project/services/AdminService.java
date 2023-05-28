@@ -5,6 +5,7 @@ import com.example.Naumen_Project.models.Movie;
 import com.example.Naumen_Project.models.UserEntity;
 import com.example.Naumen_Project.repositories.MovieRepository;
 import com.example.Naumen_Project.repositories.UserRepository;
+import com.github.slugify.Slugify;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.Console;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -90,11 +92,13 @@ public class AdminService {
         if (movieRepository.existsByKpId(filmDTO.getKpId()))
             throw new IllegalArgumentException("Фильм уже есть в базе");
 
+        final Slugify slg = Slugify.builder().transliterator(true).build();
         var result = new Movie();
         result.setName(filmDTO.getName());
         result.setDescription(filmDTO.getDescription());
         result.setKpId(filmDTO.getKpId());
         result.setYear(filmDTO.getYear());
+        result.setSlug(slg.slugify(filmDTO.getName()));
         result.setPosterUrl(filmDTO.getPoster());
         result.setKpRating(filmDTO.getRating());
         if (filmDTO.getGenres() != null)

@@ -9,13 +9,11 @@ public class ReviewDTO {
     @Min(0)
     @Max(10)
     private int rating;
-    private Long userId;
     private Long movieId;
 
-    public ReviewDTO(String reviewText, int rating, Long userId, Long movieId) {
+    public ReviewDTO(String reviewText, int rating, Long movieId) {
         this.reviewText = reviewText;
         this.rating = rating;
-        this.userId = userId;
         this.movieId = movieId;
     }
 
@@ -27,7 +25,6 @@ public class ReviewDTO {
         var result = new ReviewDTO();
         result.setRating(review.getRating());
         result.setReviewText(review.getReviewText());
-        result.setUserId(review.getUser().getId());
         result.setMovieId(review.getMovie().getId());
 
         return result;
@@ -47,14 +44,6 @@ public class ReviewDTO {
 
     public void setRating(int rating) {
         this.rating = rating;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public Long getMovieId() {

@@ -1,6 +1,7 @@
 package com.example.Naumen_Project.services;
 
 import com.example.Naumen_Project.dto.DetailMovieDTO;
+import com.example.Naumen_Project.dto.DetailReview;
 import com.example.Naumen_Project.dto.MovieDTO;
 import com.example.Naumen_Project.dto.ReviewDTO;
 import com.example.Naumen_Project.models.ExpectedMovie;
@@ -75,7 +76,7 @@ public class MovieService {
         }
     }
 
-    public void createReview(UserEntity user, ReviewDTO reviewDTO){
+    public DetailReview createReview(UserEntity user, ReviewDTO reviewDTO){
         var movie = movieRepository.findById(
                         reviewDTO.getMovieId())
                 .orElseThrow(() ->
@@ -88,18 +89,30 @@ public class MovieService {
             reviewRepository.save(newReview);
             userRepository.save(user);
             movieRepository.save(movie);
+            return DetailReview.fromReview(newReview, user.getUsername());
         }
         else {
-            throw new IllegalArgumentException("Вы уже оставляли отзыв на этот фильм");
+            return DetailReview.fromReview(existedReview, user.getUsername());
         }
     }
 
-    public DetailMovieDTO getMovie(int movieId) {
+    public DetailMovieDTO getMovieById(int movieId) {
         var movie = movieRepository.findById((long) movieId)
                 .orElseThrow(() ->
                         new IllegalArgumentException("Данного фильма не существует id - " + movieId));
-        var reviews = new ArrayList<ReviewDTO>();
-        movie.getReviews().forEach(review -> reviews.add(ReviewDTO.fromReview(review)));
+        var reviews = new ArrayList<DetailReview>();
+        movie.getReviews().forEach(review -> reviews.add(DetailReview.fromReview(review, review.getUser().getUsername())));
         return DetailMovieDTO.fromMovie(movie, reviews);
+    }
+
+    public DetailMovieDTO getMovieBySlug(String slug) {
+        try {
+            var movie = movieRepository.findMovieBySlug(slug);
+            var reviews = new ArrayList<DetailReview>();
+            movie.getReviews().forEach(review -> reviews.add(DetailReview.fromReview(review, review.getUser().getUsername())));
+            return DetailMovieDTO.fromMovie(movie, reviews);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Данного фильма не существует - " + slug);
+        }
     }
 }

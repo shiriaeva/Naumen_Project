@@ -21,6 +21,7 @@ public class Movie {
     private String description;
     private String posterUrl;
     private int year;
+    private String slug;
 
     @OneToMany(mappedBy = "movie")
     private List<LikedMovie> likedMovies;
@@ -102,6 +103,13 @@ public class Movie {
 
     public void setYear(int year) {
         this.year = year;
+    }
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public List<LikedMovie> getLikedMovies() {

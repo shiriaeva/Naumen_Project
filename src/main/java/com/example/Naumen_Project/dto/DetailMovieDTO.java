@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DetailMovieDTO extends MovieDTO{
-    private List<ReviewDTO> reviews;
+    private List<DetailReview> reviews;
 
     public DetailMovieDTO() {
     }
 
-    public static DetailMovieDTO fromMovie(Movie movie, List<ReviewDTO> reviews){
+    public static DetailMovieDTO fromMovie(Movie movie, List<DetailReview> reviews){
         var result = new DetailMovieDTO();
         result.setDescription(movie.getDescription());
         result.setRating(movie.getKpRating());
@@ -27,11 +27,11 @@ public class DetailMovieDTO extends MovieDTO{
         return result;
     }
 
-    public List<ReviewDTO> getReviews() {
+    public List<DetailReview> getReviews() {
         return reviews;
     }
 
-    public void setReviews(List<ReviewDTO> reviews) {
+    public void setReviews(List<DetailReview> reviews) {
         this.reviews = reviews;
     }
 }

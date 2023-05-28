@@ -12,13 +12,12 @@ public class MovieDTO {
     private String name;
     private String type;
     private int year;
+    private String slug;
     private String description;
 
     private String poster;
     private double rating;
     private List<String> genres;
-
-
 
     public static MovieDTO fromMovie(Movie movie){
         var result = new MovieDTO();
@@ -31,6 +30,7 @@ public class MovieDTO {
         result.setName(movie.getName());
         result.setPoster(movie.getPosterUrl());
         result.setYear(movie.getYear());
+        result.setSlug(movie.getSlug());
         return result;
     }
 
@@ -72,6 +72,13 @@ public class MovieDTO {
 
     public void setYear(int year) {
         this.year = year;
+    }
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public String getDescription() {

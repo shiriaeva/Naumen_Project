@@ -1,8 +1,8 @@
 package com.example.Naumen_Project.controllers;
 
+import com.example.Naumen_Project.dto.DetailReview;
 import com.example.Naumen_Project.dto.MovieDTO;
 import com.example.Naumen_Project.dto.ReviewDTO;
-import com.example.Naumen_Project.dto.user.UserCommonDTO;
 import com.example.Naumen_Project.services.AuthService;
 import com.example.Naumen_Project.services.MovieService;
 import com.example.Naumen_Project.services.UserService;
@@ -80,9 +80,9 @@ public class UserController {
     @PostMapping("/movie/review")
     @ResponseBody
     @ResponseStatus(value = HttpStatus.ACCEPTED, reason = "Review created")
-    public void createMovieReview(@Valid @RequestBody ReviewDTO reviewDTO) {
+    public DetailReview createMovieReview(@Valid @RequestBody ReviewDTO reviewDTO) {
         var user = authService.getCurrentUser();
-        movieService.createReview(user.getUser(), reviewDTO);
+        return movieService.createReview(user.getUser(), reviewDTO);
     }
 
 }
