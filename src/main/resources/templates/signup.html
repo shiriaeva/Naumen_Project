@@ -34,7 +34,7 @@
                 <input placeholder="пароль" type="text" th:field="*{password}" class="form-control">
                 <p style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                 <br>
-                <button type="submit" >Зарегистрироваться</button>
+                <input type="submit" value="Зарегистрироваться">
             </form>
             <br>
         </div>

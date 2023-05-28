@@ -47,6 +47,7 @@
                 <th>Постер</th>
                 <th>Рейтинг</th>
                 <th>Жанры</th>
+                <th></th>
             </tr>
             <tr th:each="film: ${films}">
                 <td th:text="${film.name}">Название</td>
@@ -55,11 +56,25 @@
                 <td><img th:src="${film.poster}" width="70" height="110"></td>
                 <td th:text="${film.rating}">Рейтинг</td>
                 <td th:text="${#strings.listJoin(film.genres, ',')}">Жанры</td>
+                <td>
+                    <button class="btn btn-danger" th:attr="onclick=|deleteRequest('${film.id}')|">Удалить</button>
+                </td>
             </tr>
         </table>
     </div>
 </main>
 </body>
+<script>
+    var deleteRequest = function (id) {
+        var xhr = new XMLHttpRequest();
+        const url = "http://localhost:8080/admin/movie/delete/";
+        xhr.open("DELETE", url + id);
+        xhr.send(null);
+        xhr.onload =function (){
+            window.location.reload();
+        }
+    }
+</script>
 <style>
     table, th, td {
         border: 1px solid black;

@@ -6,19 +6,19 @@ import jakarta.validation.constraints.Size;
 import java.util.Objects;
 
 public final class LoginRequest {
-    @Size(min = 3, message = "ASDSADASD")
+    @Size(min = 3, message = "Минимум 3 символа")
     @NotBlank(message = "Поле обязательно для ввода")
     private String username;
-    @Size(min = 6,message = "ASDASDDSA")
+    @Size(min = 6, message = "Минимум 6 символов")
     @NotBlank(message = "Поле обязательно для ввода")
     private String password;
 
-   public LoginRequest(String username, String password) {
+    public LoginRequest(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public LoginRequest(){
+    public LoginRequest() {
 
     }
 

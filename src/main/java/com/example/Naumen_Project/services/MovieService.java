@@ -1,9 +1,9 @@
 package com.example.Naumen_Project.services;
 
-import com.example.Naumen_Project.dto.DetailMovieDTO;
+import com.example.Naumen_Project.dto.DetailMovie;
 import com.example.Naumen_Project.dto.DetailReview;
-import com.example.Naumen_Project.dto.MovieDTO;
-import com.example.Naumen_Project.dto.ReviewDTO;
+import com.example.Naumen_Project.dto.MovieCommon;
+import com.example.Naumen_Project.dto.ReviewCommon;
 import com.example.Naumen_Project.models.ExpectedMovie;
 import com.example.Naumen_Project.models.LikedMovie;
 import com.example.Naumen_Project.models.Review;
@@ -33,14 +33,14 @@ public class MovieService {
         this.userRepository = userRepository;
     }
 
-    public List<MovieDTO> getMovieList(int offset, int limit) {
+    public List<MovieCommon> getMovieList(int offset, int limit) {
         var movies = movieRepository.findAll(PageRequest.of(offset, limit));
         return movies.stream().map(
-                MovieDTO::fromMovie
+                MovieCommon::fromMovie
         ).collect(Collectors.toList());
     }
 
-    public void addToLiked(UserEntity user, MovieDTO filmDTO) {
+    public void addToLiked(UserEntity user, MovieCommon filmDTO) {
         var movie = movieRepository.findById(
                 filmDTO.getId())
                 .orElseThrow(() ->
@@ -58,7 +58,7 @@ public class MovieService {
         }
     }
 
-    public void addToExpected(UserEntity user, MovieDTO filmDTO) {
+    public void addToExpected(UserEntity user, MovieCommon filmDTO) {
         var movie = movieRepository.findById(
                         filmDTO.getId())
                 .orElseThrow(() ->
@@ -76,7 +76,7 @@ public class MovieService {
         }
     }
 
-    public DetailReview createReview(UserEntity user, ReviewDTO reviewDTO){
+    public DetailReview createReview(UserEntity user, ReviewCommon reviewDTO){
         var movie = movieRepository.findById(
                         reviewDTO.getMovieId())
                 .orElseThrow(() ->
@@ -96,21 +96,21 @@ public class MovieService {
         }
     }
 
-    public DetailMovieDTO getMovieById(int movieId) {
+    public DetailMovie getMovieById(int movieId) {
         var movie = movieRepository.findById((long) movieId)
                 .orElseThrow(() ->
                         new IllegalArgumentException("Данного фильма не существует id - " + movieId));
         var reviews = new ArrayList<DetailReview>();
         movie.getReviews().forEach(review -> reviews.add(DetailReview.fromReview(review, review.getUser().getUsername())));
-        return DetailMovieDTO.fromMovie(movie, reviews);
+        return DetailMovie.fromMovie(movie, reviews);
     }
 
-    public DetailMovieDTO getMovieBySlug(String slug) {
+    public DetailMovie getMovieBySlug(String slug) {
         try {
             var movie = movieRepository.findMovieBySlug(slug);
             var reviews = new ArrayList<DetailReview>();
             movie.getReviews().forEach(review -> reviews.add(DetailReview.fromReview(review, review.getUser().getUsername())));
-            return DetailMovieDTO.fromMovie(movie, reviews);
+            return DetailMovie.fromMovie(movie, reviews);
         } catch (Exception e) {
             throw new IllegalArgumentException("Данного фильма не существует - " + slug);
         }

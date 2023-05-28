@@ -33,8 +33,8 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<ExpectedMovie> expectedMovies;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<MovieRating> movieRatings;
+    /*@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<MovieRating> movieRatings;*/
 
     @Enumerated(EnumType.STRING)
     public UserRole userRole;
@@ -135,11 +135,4 @@ public class UserEntity {
         this.expectedMovies = expectedMovies;
     }
 
-    public List<MovieRating> getMovieRatings() {
-        return movieRatings;
-    }
-
-    public void setMovieRatings(List<MovieRating> movieRatings) {
-        this.movieRatings = movieRatings;
-    }
 }

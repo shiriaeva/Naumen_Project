@@ -6,14 +6,14 @@ import com.example.Naumen_Project.models.Movie;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DetailMovieDTO extends MovieDTO{
+public class DetailMovie extends MovieCommon {
     private List<DetailReview> reviews;
 
-    public DetailMovieDTO() {
+    public DetailMovie() {
     }
 
-    public static DetailMovieDTO fromMovie(Movie movie, List<DetailReview> reviews){
-        var result = new DetailMovieDTO();
+    public static DetailMovie fromMovie(Movie movie, List<DetailReview> reviews){
+        var result = new DetailMovie();
         result.setDescription(movie.getDescription());
         result.setRating(movie.getKpRating());
         result.setId(movie.getId());

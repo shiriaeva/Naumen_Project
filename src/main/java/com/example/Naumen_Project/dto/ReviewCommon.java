@@ -4,25 +4,25 @@ import com.example.Naumen_Project.models.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 
-public class ReviewDTO {
+public class ReviewCommon {
     private String reviewText;
     @Min(0)
     @Max(10)
     private int rating;
     private Long movieId;
 
-    public ReviewDTO(String reviewText, int rating, Long movieId) {
+    public ReviewCommon(String reviewText, int rating, Long movieId) {
         this.reviewText = reviewText;
         this.rating = rating;
         this.movieId = movieId;
     }
 
-    public ReviewDTO() {
+    public ReviewCommon() {
 
     }
 
-    public static ReviewDTO fromReview(Review review){
-        var result = new ReviewDTO();
+    public static ReviewCommon fromReview(Review review){
+        var result = new ReviewCommon();
         result.setRating(review.getRating());
         result.setReviewText(review.getReviewText());
         result.setMovieId(review.getMovie().getId());

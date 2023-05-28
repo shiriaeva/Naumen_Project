@@ -1,7 +1,7 @@
 package com.example.Naumen_Project.dto.user;
 
 
-public class UserCommonDTO {
+public class UserCommon {
     private String name;
     private String surname;
     private String secondName;

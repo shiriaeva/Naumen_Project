@@ -1,6 +1,6 @@
 package com.example.Naumen_Project.dto;
 
-public class GenreDTO {
+public class GenreCommon {
     private String name;
     private String slug;
 

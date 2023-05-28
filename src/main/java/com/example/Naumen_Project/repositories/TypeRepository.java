@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface TypeRepository extends JpaRepository<Type, Long> {
     boolean existsByName(String name);
 
-    Type findByName(String type);
+    Optional<Type> findByName(String type);
 }

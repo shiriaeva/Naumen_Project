@@ -1,7 +1,7 @@
 package com.example.Naumen_Project.controllers;
 
-import com.example.Naumen_Project.dto.DetailMovieDTO;
-import com.example.Naumen_Project.dto.MovieDTO;
+import com.example.Naumen_Project.dto.DetailMovie;
+import com.example.Naumen_Project.dto.MovieCommon;
 import com.example.Naumen_Project.services.MovieService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,12 +20,14 @@ public class MovieController {
     }
 
     @GetMapping("/{offset}/{limit}")
-    public List<MovieDTO> getMovies(@PathVariable int offset, @PathVariable int limit) {
+    @ResponseBody
+    public List<MovieCommon> getMovies(@PathVariable int offset, @PathVariable int limit) {
         return movieService.getMovieList(offset, limit);
     }
 
     @GetMapping("/{movieId}")
-    public DetailMovieDTO getMovie(@PathVariable int movieId) {
+    @ResponseBody
+    public DetailMovie getMovie(@PathVariable int movieId) {
         return movieService.getMovieById(movieId);
     }
 

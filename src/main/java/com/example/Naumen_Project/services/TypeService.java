@@ -1,6 +1,6 @@
 package com.example.Naumen_Project.services;
 
-import com.example.Naumen_Project.dto.TypeDTO;
+import com.example.Naumen_Project.dto.TypeCommon;
 import com.example.Naumen_Project.models.Type;
 import com.example.Naumen_Project.repositories.TypeRepository;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ public class TypeService {
         this.typeRepository = typeRepository;
     }
 
-    public void saveType(TypeDTO typeDTO) {
+    public void saveType(TypeCommon typeDTO) {
         if (!typeRepository.existsByName(typeDTO.getName())) {
             var result = new Type();
             result.setName(typeDTO.getName());
@@ -23,6 +23,6 @@ public class TypeService {
     }
 
     public Type getTypeByName(String type) {
-        return typeRepository.findByName(type);
+        return typeRepository.findByName(type).orElseThrow(()->new IllegalArgumentException("Типа "+type+" не существует"));
     }
 }

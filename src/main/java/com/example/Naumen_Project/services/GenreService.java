@@ -1,6 +1,6 @@
 package com.example.Naumen_Project.services;
 
-import com.example.Naumen_Project.dto.GenreDTO;
+import com.example.Naumen_Project.dto.GenreCommon;
 import com.example.Naumen_Project.models.Genre;
 import com.example.Naumen_Project.repositories.GenreRepository;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ public class GenreService {
         this.genreRepository = genreRepository;
     }
 
-    public void saveGenre(GenreDTO genreDTO) {
+    public void saveGenre(GenreCommon genreDTO) {
         if (!genreRepository.existsByName(genreDTO.getName())) {
             var result = new Genre();
             result.setName(genreDTO.getName());
@@ -22,6 +22,6 @@ public class GenreService {
     }
 
     public Genre getGenreByName(String name) {
-        return genreRepository.findByName(name);
+        return genreRepository.findByName(name).orElseThrow(() -> new IllegalArgumentException("Жанра " + name + " не существует"));
     }
 }

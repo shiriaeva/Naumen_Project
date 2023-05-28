@@ -1,7 +1,7 @@
 package com.example.Naumen_Project.controllers;
 
-import com.example.Naumen_Project.dto.KpMovieDTO;
-import com.example.Naumen_Project.dto.MovieDTO;
+import com.example.Naumen_Project.dto.KpMovie;
+import com.example.Naumen_Project.dto.MovieCommon;
 import com.example.Naumen_Project.services.AdminService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -46,25 +46,25 @@ public class AdminController {
 
     @GetMapping("/movie/load")
     @ResponseBody
-    public List<KpMovieDTO> loadMovieByName(@RequestParam String name,@RequestParam int page,@RequestParam int limit) {
+    public List<KpMovie> loadMovieByName(@RequestParam String name, @RequestParam int page, @RequestParam int limit) {
         return adminService.loadMovieByName(name,page,limit);
     }
 
     @PostMapping(value = "/movie/create",consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public void createMovie(@RequestBody KpMovieDTO filmDTO) {
+    public void createMovie(@RequestBody KpMovie filmDTO) {
         adminService.createMovie(filmDTO);
     }
 
     @GetMapping("/movie/list/{offset}/{limit}")
     @ResponseBody
-    public List<MovieDTO> getMovieList(@PathVariable int offset, @PathVariable int limit) {
+    public List<MovieCommon> getMovieList(@PathVariable int offset, @PathVariable int limit) {
         return adminService.getMovieList(offset, limit);
     }
 
     @PutMapping("/movie/edit")
     @ResponseBody
-    public MovieDTO editFilm(@RequestBody MovieDTO movie) {
+    public MovieCommon editFilm(@RequestBody MovieCommon movie) {
         return adminService.editMovie(movie);
     }
 

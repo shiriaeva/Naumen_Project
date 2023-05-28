@@ -17,10 +17,10 @@
         <div class="input-group mb-3">
             <form method="post" action="#" th:action="@{/login}" th:object="${loginForm}">
                 <input placeholder="логин" type="text" th:field="*{username}" class="form-control">
-                <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                <p style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}" ></p>
                 <br>
                 <input placeholder="пароль" type="password" th:field="*{password}" class="form-control">
-                <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                <p style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                 <br>
                 <input type="submit"/>
                 <span></span>

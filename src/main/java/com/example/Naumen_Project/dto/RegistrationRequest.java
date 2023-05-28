@@ -1,7 +1,6 @@
 package com.example.Naumen_Project.dto;
 
 
-import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -9,17 +8,17 @@ import jakarta.validation.constraints.Size;
 import java.util.Objects;
 
 public final class RegistrationRequest {
-    @Size(min = 3)
+    @Size(min = 3,message = "Минимум 3 символа")
     @NotBlank(message = "Поле обязательно для ввода")
     private String name;
-    @Size(min = 3)
+    @Size(min = 3,message = "Минимум 3 символа")
     @NotBlank(message = "Поле обязательно для ввода")
     private String surname;
     private String secondName;
-    @Size(min = 4)
+    @Size(min = 4,message = "Минимум 4 символа")
     @NotBlank(message = "Поле обязательно для ввода")
     private String username;
-    @Size(min = 6)
+    @Size(min = 6,message = "Минимум 6 символа")
     @NotBlank(message = "Поле обязательно для ввода")
     private String password;
     @Email

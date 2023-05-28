@@ -2,7 +2,7 @@ package com.example.Naumen_Project.dto;
 
 import com.example.Naumen_Project.models.Review;
 
-public class DetailReview extends ReviewDTO {
+public class DetailReview extends ReviewCommon {
     private String username;
 
     public DetailReview() {
