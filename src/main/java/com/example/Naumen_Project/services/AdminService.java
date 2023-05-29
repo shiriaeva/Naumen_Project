@@ -2,6 +2,7 @@ package com.example.Naumen_Project.services;
 
 import com.example.Naumen_Project.dto.*;
 import com.example.Naumen_Project.models.Movie;
+import com.example.Naumen_Project.models.Type;
 import com.example.Naumen_Project.models.UserEntity;
 import com.example.Naumen_Project.repositories.*;
 import com.github.slugify.Slugify;
@@ -17,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -111,7 +113,7 @@ public class AdminService {
     }
 
     public MovieCommon editMovie(MovieCommon filmDTO) {
-        var result = movieRepository.findById(filmDTO.getId()).orElseThrow(() -> new IllegalArgumentException("Данного фильма не существует id - " + filmDTO.getId()));
+        var result = movieRepository.findById(filmDTO.getId()).get();
         result.setName(filmDTO.getName());
         result.setDescription(filmDTO.getDescription());
         result.setYear(filmDTO.getYear());
@@ -119,8 +121,9 @@ public class AdminService {
         result.setKpRating(filmDTO.getRating());
         if (filmDTO.getGenres() != null)
             result.setMovieGenres(filmDTO.getGenres().stream().map(genreService::getGenreByName).collect(Collectors.toSet()));
-        result.setMovieTypes(Set.of(typeService.getTypeByName(filmDTO.getType())));
-
+        var types  =new HashSet<Type>();
+        types.add(typeService.getTypeByName(filmDTO.getType()));
+        result.setMovieTypes(types);
         movieRepository.save(result);
         return filmDTO;
     }

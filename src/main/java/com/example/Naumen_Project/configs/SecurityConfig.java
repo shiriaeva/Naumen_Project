@@ -1,5 +1,6 @@
 package com.example.Naumen_Project.configs;
 
+import com.example.Naumen_Project.models.UserRole;
 import com.example.Naumen_Project.security.AppUserDetailService;
 import com.example.Naumen_Project.security.jwt.JwtFilter;
 import org.springframework.context.annotation.Bean;
@@ -42,8 +43,9 @@ public class SecurityConfig {
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/**")
-                .permitAll()
+                .requestMatchers("/admin/**").hasAnyAuthority(UserRole.ADMIN_ROLE.name())
+                .requestMatchers("/user/**").hasAnyAuthority(UserRole.AUTHORIZED_ROLE.name())
+                .requestMatchers("/**").permitAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
