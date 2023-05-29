@@ -45,7 +45,6 @@ public class MovieController {
     @ResponseBody
     public List<MovieCommon> index(Model model, @PathVariable String genreName) {
         var genre = genreRepository.findByName(genreName);
-        model.addAttribute("genre_movies", movieService.getGenreMovies(genre));
         return movieService.getGenreMovies(genre);
     }
 

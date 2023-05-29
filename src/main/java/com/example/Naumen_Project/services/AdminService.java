@@ -113,7 +113,7 @@ public class AdminService {
     }
 
     public MovieCommon editMovie(MovieCommon filmDTO) {
-        var result = movieRepository.findById(filmDTO.getId()).get();
+        var result = movieRepository.findById(filmDTO.getId()).orElseThrow(() -> new IllegalArgumentException("Фильма не существует"));
         result.setName(filmDTO.getName());
         result.setDescription(filmDTO.getDescription());
         result.setYear(filmDTO.getYear());
