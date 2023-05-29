@@ -121,7 +121,7 @@ public class AdminService {
         result.setKpRating(filmDTO.getRating());
         if (filmDTO.getGenres() != null)
             result.setMovieGenres(filmDTO.getGenres().stream().map(genreService::getGenreByName).collect(Collectors.toSet()));
-        var types  =new HashSet<Type>();
+        var types = new HashSet<Type>();
         types.add(typeService.getTypeByName(filmDTO.getType()));
         result.setMovieTypes(types);
         movieRepository.save(result);

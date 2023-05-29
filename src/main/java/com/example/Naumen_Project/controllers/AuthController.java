@@ -40,7 +40,6 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@Valid @ModelAttribute("loginForm") LoginRequest loginForm, BindingResult bindingResult, HttpServletResponse response, Model model) {
         if (bindingResult.hasErrors()) {
-            //model.addAttribute("loginForm", loginForm);
             return "/signin";
         }
         try {
@@ -52,7 +51,6 @@ public class AuthController {
             }
             return "redirect:/user";
         } catch (Exception e) {
-           // model.addAttribute("loginForm", loginForm);
             return "/signin";
         }
     }
@@ -60,7 +58,6 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("registrationForm") RegistrationRequest registrationForm, BindingResult bindingResult, HttpServletResponse response, Model model) throws AuthException {
         if (bindingResult.hasErrors()) {
-            //model.addAttribute("registrationForm", registrationForm);
             return "signup";
         }
         var user = authService.register(registrationForm);
