@@ -4,16 +4,14 @@ import com.example.Naumen_Project.dto.DetailMovie;
 import com.example.Naumen_Project.dto.DetailReview;
 import com.example.Naumen_Project.dto.MovieCommon;
 import com.example.Naumen_Project.dto.ReviewCommon;
-import com.example.Naumen_Project.models.ExpectedMovie;
-import com.example.Naumen_Project.models.LikedMovie;
-import com.example.Naumen_Project.models.Review;
-import com.example.Naumen_Project.models.UserEntity;
+import com.example.Naumen_Project.models.*;
 import com.example.Naumen_Project.repositories.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,13 +22,15 @@ public class MovieService {
     private final ExpectedMovieRepository expectedRepository;
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
+    private final GenreRepository genreRepository;
 
-    public MovieService(MovieRepository movieRepository, LikedMovieRepository likedRepository, ExpectedMovieRepository expectedRepository, ReviewRepository reviewRepository, UserRepository userRepository) {
+    public MovieService(MovieRepository movieRepository, LikedMovieRepository likedRepository, ExpectedMovieRepository expectedRepository, ReviewRepository reviewRepository, UserRepository userRepository, GenreRepository genreRepository) {
         this.movieRepository = movieRepository;
         this.likedRepository = likedRepository;
         this.expectedRepository = expectedRepository;
         this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
+        this.genreRepository = genreRepository;
     }
 
     public List<MovieCommon> getMovieList(int offset, int limit) {
@@ -38,6 +38,10 @@ public class MovieService {
         return movies.stream().map(
                 MovieCommon::fromMovie
         ).collect(Collectors.toList());
+    }
+
+    public List<Genre> getGenreList() {
+        return genreRepository.findAll();
     }
 
     public void addToLiked(UserEntity user, MovieCommon filmDTO) {
@@ -92,6 +96,9 @@ public class MovieService {
             return DetailReview.fromReview(newReview, user.getUsername());
         }
         else {
+            existedReview.setReviewText(reviewDTO.getReviewText());
+            existedReview.setRating(reviewDTO.getRating());
+            reviewRepository.save(existedReview);
             return DetailReview.fromReview(existedReview, user.getUsername());
         }
     }
@@ -114,5 +121,12 @@ public class MovieService {
         } catch (Exception e) {
             throw new IllegalArgumentException("Данного фильма не существует - " + slug);
         }
+    }
+
+    public List<MovieCommon> getGenreMovies(Optional<Genre> genre) {
+        var movies = movieRepository.getMoviesByMovieGenresContains(genre);
+        var list = new ArrayList<MovieCommon>();
+        movies.forEach(movie -> list.add(MovieCommon.fromMovie(movie)));
+        return list;
     }
 }

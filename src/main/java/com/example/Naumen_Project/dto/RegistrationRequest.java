@@ -15,7 +15,7 @@ public final class RegistrationRequest {
     @NotBlank(message = "Поле обязательно для ввода")
     private String surname;
     private String secondName;
-    @Size(min = 4,message = "Минимум 4 символа")
+    @Size(min = 3,message = "Минимум 3 символа")
     @NotBlank(message = "Поле обязательно для ввода")
     private String username;
     @Size(min = 6,message = "Минимум 6 символа")
